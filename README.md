@@ -7,3 +7,23 @@
 </div>
 
 Project is intended to be able to handle a PDF being able to manipulate pages via command lines
+
+
+## Setup
+
+
+### Clone the repo.
+```bash 
+git clone https://github.com/GustavoLR548/HandleMyPDF.git
+cd HandleMyPDF
+```
+
+
+### Install requirements. 
+
+```bash
+pip install -r requirements.txt
+```
+
+
+## Running
