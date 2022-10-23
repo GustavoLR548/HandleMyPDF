@@ -6,20 +6,20 @@ from os.path import exists
 
 def extract_range_of_pages(pages_range : str, pdf_name : str) -> None: 
     
-    extractpage = []
+    extract_page = []
     outputFile = PdfFileWriter()
-    pages_to_include = pages_range.split(',')
+    pages_to_include = set(map(int, pages_range.split(',')))
     file = PdfFileReader(pdf_name,'rb')
 
     print(pages_to_include)
 
     for page in range(file.getNumPages()):
 
-        if (i+1) in pages_range:
-            extractpage = file.getPage(i)
-            outputFile.addPage(extractpage)
+        if (page+1) in pages_range:
+            extract_page = file.getPage(page)
+            outputFile.addPage(extract_page)
         
-    with open('newfile.pdf', 'wb') as f:
+    with open('out.pdf', 'wb') as f:
         outputFile.write(f)
 
 def delete_pages(pdf_name : str, pages : str) -> None:
@@ -74,7 +74,7 @@ if __name__ == '__main__':
                 print("[ERROR]: Not enough arguments")
                 sys.exit(1)
 
-            delete_pages(sys.argv[2], sys.argv[-1])
+            delete_pages(sys.argv[-1], sys.argv[2])
 
         if command == '--extract-range-of-pages' or command == '--e':
             print('extract-range-of-pages')
