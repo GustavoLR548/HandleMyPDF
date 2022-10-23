@@ -24,9 +24,11 @@ def extract_range_of_pages(pages_range: str, pdf_name: str) -> PdfFileWriter:
 
     for page in range(file.getNumPages()):
 
-        if (page+1) in pages_range:
+        if (page + 1) in pages_to_include:
             extract_page = file.getPage(page)
             output_file.addPage(extract_page)
+
+    return output_file
 
 
 def delete_pages(pdf_name: str, pages: str) -> PdfFileWriter:
@@ -39,7 +41,6 @@ def delete_pages(pdf_name: str, pages: str) -> PdfFileWriter:
         if (i+1) not in pages_to_delete:
             p = file.getPage(i)
             output_file.addPage(p)
-   ## print("Output File: \n"+ output_file)
 
     return output_file
 
@@ -54,9 +55,9 @@ def helper():
     print('-h --help     Show this screen.')
     print('--version     Show version.')
 
-
-def validation_file(path:str) -> bool:
-    return exists(sys.argv[path])
+# Função para validar arquivo
+def validation_file(path: str) -> bool:
+    return exists(path)
 
 
 if __name__ == '__main__':
@@ -72,7 +73,7 @@ if __name__ == '__main__':
     if command == '--help' or command == '--h':
         helper()
 
-    if validation_file([-1]):
+    if validation_file(sys.argv[-1]):
 
         output_file = PdfFileWriter()
 
@@ -82,17 +83,19 @@ if __name__ == '__main__':
                 print("[ERROR]: Not enough arguments")
                 sys.exit(1)
 
-            output_file.appendPagesFromReader(delete_pages(sys.argv[-1], sys.argv[2]))
+            output_file.appendPagesFromReader(
+                delete_pages(sys.argv[-1], sys.argv[2]))
 
         if command == '--extract-range-of-pages' or command == '--e':
-            print('extract-range-of-pages')
+    
             if argv_len != 4:
                 print("[ERROR]: Not enough arguments")
                 sys.exit(1)
 
-            output_file.appendPagesFromReader(extract_range_of_pages(sys.argv[-1], sys.argv[2]))
+            output_file.appendPagesFromReader(
+                extract_range_of_pages(sys.argv[2], sys.argv[-1]))
 
-        salvePDF(sys.argv[-1],output_file)
+        salvePDF(sys.argv[-1], output_file)
 
     else:
         print(f"\n[ERROR]: The file {sys.argv[-1]} does not exist\n")
