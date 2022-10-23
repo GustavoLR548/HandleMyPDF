@@ -55,8 +55,8 @@ def helper():
     print('--version     Show version.')
 
 
-def validation_file() -> bool:
-    return True
+def validation_file(path:str) -> bool:
+    return exists(sys.argv[path])
 
 
 if __name__ == '__main__':
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     if command == '--help' or command == '--h':
         helper()
 
-    if exists(sys.argv[-1]):
+    if validation_file([-1]):
 
         output_file = PdfFileWriter()
 
@@ -89,7 +89,7 @@ if __name__ == '__main__':
             if argv_len != 4:
                 print("[ERROR]: Not enough arguments")
                 sys.exit(1)
-                
+
             output_file.appendPagesFromReader(extract_range_of_pages(sys.argv[-1], sys.argv[2]))
 
         salvePDF(sys.argv[-1],output_file)
