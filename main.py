@@ -17,8 +17,6 @@ def extractRangeOfPages(pages_range: str, pdf_name: str) -> PdfFileWriter:
     pages = excluding_duplicated_pages
     file = PdfFileReader(pdf_name, 'rb')
 
-    print(pages)
-
     for page in range(file.getNumPages()):
 
         if (page + 1) in pages:
